@@ -1,8 +1,7 @@
-# ASP .NET Testing 
+# ASP.NET CORE Testing 
 
-
+Base Testing for .NET ASP Core. 
 
 
 ### Setup: 
 
-set the iisexpress path variable to ensure that you can run iisexpress 
