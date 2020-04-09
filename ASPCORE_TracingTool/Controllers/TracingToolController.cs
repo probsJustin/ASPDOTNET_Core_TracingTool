@@ -1,9 +1,12 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace ASPCORE_TracingTool.Controllers
 {
@@ -12,7 +15,17 @@ namespace ASPCORE_TracingTool.Controllers
     public class TracingTool : ControllerBase
     {
 
-
+        public Dictionary<string,string> getRequest(string urlFuncVar)
+        {
+            Dictionary<string,string> myResponse = new Dictionary<string, string> { };
+            HttpWebRequest HttpWReq = (HttpWebRequest)WebRequest.Create(urlFuncVar);
+            HttpWebResponse HttpWResp = (HttpWebResponse)HttpWReq.GetResponse();
+            // Insert code that uses the response object.
+            myResponse["code"] = (int)HttpWResp.StatusCode + " : " + HttpWResp.StatusDescription.ToString();
+            //myResponse["body"] = HttpWResp.
+            HttpWResp.Close();
+            return myResponse;
+        }
         Dictionary<string, string> returnObject = new Dictionary<string, string> { };
         Dictionary<string, string> returnInstance = new Dictionary<string, string> { }; 
         public Dictionary<string,string> requestFactory(Microsoft.AspNetCore.Http.HttpRequest requestFuncVar)
@@ -22,18 +35,34 @@ namespace ASPCORE_TracingTool.Controllers
             try
             {
                 requestInstance["debug"] = Request.Query["debug"];
+            }
+            catch (Exception e)
+            {
+                requestInstance["debug"] = "";
+            }
+            try
+            {
                 requestInstance["url_passthrough"] = Request.Query["url_passthrough"];
-                if (requestInstance["debug"].ToLower() == "true")
+            }
+            catch (Exception e)
+            {
+                requestInstance["url_passthrough"] = "";
+            }
+            try 
+            {
+                if (requestInstance["debug"] == "true")
                 {
-
                     returnObject["data"] += "Dynatrace SUPLAB Debug Request Information:" + '\n';
 
                     returnObject["data"] += "Dynatrace SUPLAB Debug Request Parameters:" + '\n';
 
                     returnObject["data"] += "Debug : " + requestInstance["debug"] + '\n';
-                    returnObject["data"] += "Url_PassThrough : " + requestInstance["url_passthrough"] + '\n';
+                    if (requestInstance["url_passthrough"] != null)
+                    {
+                        returnObject["data"] += "Url_PassThrough : " + requestInstance["url_passthrough"] + '\n';
+                        returnObject["url_passthrough"] = requestInstance["url_passthrough"];
+                    }
 
-                    returnObject["url_passthrough"] = requestInstance["url_passthrough"];
                     returnObject["debug"] = requestInstance["debug"];
 
                     returnObject["data"] += '\n' + "Dynatrace SUPLAB Debug Request Headers:" + '\n';
@@ -45,13 +74,30 @@ namespace ASPCORE_TracingTool.Controllers
                 }
                 else
                 {
-                    returnObject["data"] = "Debug : False";
+                    returnObject["data"] = "Debug : False" + '\n';
                 }
+                if(requestInstance["url_passthrough"] != null)
+                {
+                    Dictionary<string, string> getResponse = new Dictionary<string, string> { };
+                    returnObject["data"] += '\n' + "Dynatrace SUPLAB request url_passthrough information: " + '\n'; 
+                    returnObject["data"] += "url_passthrough : Enabled" + '\n';
+                    returnObject["data"] += "url_passthrough : Attempting" + '\n';
+                    getResponse = getRequest(requestInstance["url_passthrough"]);
+                    returnObject["data"] += "Response Code: " + getResponse["code"] + '\n';
+                }
+                else
+                {
+                    returnObject["url_passthrough_unit"] = "false";
+
+                }
+
+
             }
             catch (Exception e)
             {
                 returnObject["data"] = e.ToString();
             }
+
             return returnObject; 
         }
 
