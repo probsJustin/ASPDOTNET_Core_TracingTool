@@ -1,5 +1,4 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Linq;
@@ -14,16 +13,42 @@ namespace ASPCORE_TracingTool.Controllers
     [Route("/")]
     public class TracingTool : ControllerBase
     {
-
+        public string ln(string funcVar)
+        {
+            return funcVar + '\n';
+        }
+        public string responseChecker(string funcVar)
+        {
+            string returnObject = "";
+            if(funcVar == "" | funcVar == null)
+            {
+                returnObject = "Empty";
+            }
+            else
+            {
+                returnObject = funcVar;
+            }
+            return returnObject;
+        }
         public Dictionary<string,string> getRequest(string urlFuncVar)
         {
             Dictionary<string,string> myResponse = new Dictionary<string, string> { };
             HttpWebRequest HttpWReq = (HttpWebRequest)WebRequest.Create(urlFuncVar);
-            HttpWebResponse HttpWResp = (HttpWebResponse)HttpWReq.GetResponse();
-            // Insert code that uses the response object.
-            myResponse["code"] = (int)HttpWResp.StatusCode + " : " + HttpWResp.StatusDescription.ToString();
-            //myResponse["body"] = HttpWResp.
-            HttpWResp.Close();
+            try
+            {
+                HttpWebResponse HttpWResp = (HttpWebResponse)HttpWReq.GetResponse();
+                // Insert code that uses the response object.
+                myResponse["code"] = (int)HttpWResp.StatusCode + " : " + HttpWResp.StatusDescription.ToString();
+                //myResponse["body"] = HttpWResp.
+                HttpWResp.Close();
+            }
+            catch (WebException e)
+            {
+                HttpWebResponse HttpWResp = (HttpWebResponse)e.Response;
+                myResponse["code"] = (int)HttpWResp.StatusCode + " : " + HttpWResp.StatusDescription.ToString();
+
+            }
+
             return myResponse;
         }
         Dictionary<string, string> returnObject = new Dictionary<string, string> { };
@@ -32,6 +57,20 @@ namespace ASPCORE_TracingTool.Controllers
         {
             returnObject["data"] = "";
             Dictionary<string, string> requestInstance = new Dictionary<string, string> { };
+            string[] splitPaths = new string[40];
+            try
+            {
+                requestInstance["X-dynaSupLabPath-info"] = responseChecker(requestFuncVar.Headers["X-dynaSupLabPath-info"]);
+                requestInstance["X-dynaSupLabPosition-info"] = responseChecker(requestFuncVar.Headers["X-dynaSupLabPosition-info"]);
+                requestInstance["X-dynaSupLabRes-info"] = responseChecker(requestFuncVar.Headers["X-dynaSupLabRes-info"]);
+                requestInstance["X-dynaSupLabReq-info"] = responseChecker(requestFuncVar.Headers["X-dynaSupLabReq-info"]);
+
+            }
+            catch (Exception e)
+            {
+                returnObject["data"] += e.ToString();
+            }
+            
             try
             {
                 requestInstance["debug"] = Request.Query["debug"];
@@ -52,9 +91,9 @@ namespace ASPCORE_TracingTool.Controllers
             {
                 if (requestInstance["debug"] == "true")
                 {
-                    returnObject["data"] += "Dynatrace SUPLAB Debug Request Information:" + '\n';
+                    returnObject["data"] += ln("Dynatrace SUPLAB Debug Request Information:" + '\n');
 
-                    returnObject["data"] += "Dynatrace SUPLAB Debug Request Parameters:" + '\n';
+                    returnObject["data"] += ln("Dynatrace SUPLAB Debug Request Parameters:");
 
                     returnObject["data"] += "Debug : " + requestInstance["debug"] + '\n';
                     if (requestInstance["url_passthrough"] != null)
@@ -71,6 +110,39 @@ namespace ASPCORE_TracingTool.Controllers
                     {
                         returnObject["data"] = returnObject["data"] + I.Key + " : " + I.Value + '\n';
                     }
+                    if (requestInstance["X-dynaSupLabPath-info"] != "")
+                    {
+                        returnObject["data"] += '\n' + "Dynatrace SUPLAB Debug Path Information:" + '\n';
+                        returnObject["data"] += "X-dynaSupLabPath-info : " + requestInstance["X-dynaSupLabPath-info"];
+                        splitPaths = requestInstance["X-dynaSupLabPath-info"].Split(",");
+                        int counter = 1;
+                        returnObject["data"] += '\n';
+                        if (requestInstance["X-dynaSupLabPosition-info"] != "")
+                        {
+                            returnObject["data"] += "URL Selected : " + splitPaths[Int32.Parse(requestInstance["X-dynaSupLabPosition-info"]) - 1] + '\n';
+
+                        }
+                            foreach (string x in splitPaths)
+                        {
+                            returnObject["data"] += "URL : " + counter.ToString() + " : " + x + '\n';
+                            counter++;
+                        }
+                    }
+                    if (requestInstance["X-dynaSupLabPosition-info"] != "")
+                    {
+                        returnObject["data"] += '\n' + "Dynatrace SUPLAB Debug Path Position Information:" + '\n';
+                        returnObject["data"] += "X-dynaSupLabPosition-info : " + requestInstance["X-dynaSupLabPosition-info"];
+                    }
+                    if (requestInstance["X-dynaSupLabReq-info"] != "")
+                    {
+                        returnObject["data"] += '\n' + "Dynatrace SUPLAB Debug Request Purepath Information:" + '\n';
+                        returnObject["data"] += "X-dynaSupLabReq-info : " + requestInstance["X-dynaSupLabReq-info"];
+                    }
+                    if (requestInstance["X-dynaSupLabRes-info"] != "")
+                    {
+                        returnObject["data"] += '\n' + "Dynatrace SUPLAB Debug Response Purepath Information:" + '\n';
+                        returnObject["data"] += "X-dynaSupLabRes-info : " + requestInstance["X-dynaSupLabRes-info"] + '\n';
+                    }
                 }
                 else
                 {
@@ -79,7 +151,8 @@ namespace ASPCORE_TracingTool.Controllers
                 if(requestInstance["url_passthrough"] != null)
                 {
                     Dictionary<string, string> getResponse = new Dictionary<string, string> { };
-                    returnObject["data"] += '\n' + "Dynatrace SUPLAB request url_passthrough information: " + '\n'; 
+                    returnObject["data"] += '\n' + "Dynatrace SUPLAB request url_passthrough information: " + '\n';
+                    returnObject["data"] += "url_passthrough : " + requestInstance["url_passthrough"] + '\n';
                     returnObject["data"] += "url_passthrough : Enabled" + '\n';
                     returnObject["data"] += "url_passthrough : Attempting" + '\n';
                     getResponse = getRequest(requestInstance["url_passthrough"]);
@@ -88,9 +161,7 @@ namespace ASPCORE_TracingTool.Controllers
                 else
                 {
                     returnObject["url_passthrough_unit"] = "false";
-
                 }
-
 
             }
             catch (Exception e)
