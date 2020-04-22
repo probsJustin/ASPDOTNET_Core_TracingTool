@@ -26,6 +26,7 @@ namespace ASPCORE_TracingTool.Controllers
             returnObject += "requestURI=" + requestURI + '$';
             return returnObject; 
         }
+
         public string line(string funcVar = "")
         {
             return funcVar + '\n';
@@ -34,6 +35,7 @@ namespace ASPCORE_TracingTool.Controllers
         {
             string returnObject = funcVarIn;
             returnObject += funcVarOut;
+
             return returnObject;
         }
         public string responseChecker(string funcVar)
@@ -51,6 +53,7 @@ namespace ASPCORE_TracingTool.Controllers
             return returnObject;
         }
         public Dictionary<string, string> getRequest(string urlFuncVar, Dictionary<string, string> funcHeader)
+
         {
             Dictionary<string, string> myResponse = new Dictionary<string, string> { };
             HttpWebRequest HttpWReq = (HttpWebRequest)WebRequest.Create(urlFuncVar);
@@ -114,11 +117,13 @@ namespace ASPCORE_TracingTool.Controllers
                 requestInstance["debug"] = responseChecker(Request.Query["debug"]);
                 requestInstance["url_passthrough"] = responseChecker(Request.Query["url_passthrough"]);
 
+
             }
             catch (Exception e)
             {
                 returnObject["data"] = line("Checking Incoming Request Variables Failed");
             }
+
 
             try
             {
@@ -137,6 +142,9 @@ namespace ASPCORE_TracingTool.Controllers
                 {
                     returnObject["url_passthrough_unit"] = "false";
                 }
+            
+            try 
+            {
                 if (requestInstance["debug"] == "true" | requestInstance["debug"] == "True")
                 {
                     returnObject["data"] += line(line("Dynatrace SUPLAB Debug Request Information:"));
@@ -196,6 +204,7 @@ namespace ASPCORE_TracingTool.Controllers
                     {
                         returnObject["data"] += line(line() + "Dynatrace SUPLAB Debug Request Purepath Information:");
                         returnObject["data"] += "X-dynaSupLabReq-info : " + requestInstance["X-dynaSupLabReq-info"];
+
                         Response.Headers.Add("X-dynaSupLabReq-info", appendHeaders(pp_stamp(Request.ContentLength.ToString(), Request.Path), getResponse["X-dynaSupLabReq-info"].ToString()));
                     }
                     else
