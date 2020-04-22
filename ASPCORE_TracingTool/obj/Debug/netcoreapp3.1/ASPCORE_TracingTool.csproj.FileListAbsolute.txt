@@ -16,3 +16,23 @@ C:\Users\probsJustin\source\repos\ASPCORE_TracingTool\ASPCORE_TracingTool\obj\De
 C:\Users\probsJustin\source\repos\ASPCORE_TracingTool\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.dll
 C:\Users\probsJustin\source\repos\ASPCORE_TracingTool\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.pdb
 C:\Users\probsJustin\source\repos\ASPCORE_TracingTool\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.csprojAssemblyReference.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\ASPCORE_TracingTool.exe
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\ASPCORE_TracingTool.deps.json
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\ASPCORE_TracingTool.runtimeconfig.json
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\ASPCORE_TracingTool.runtimeconfig.dev.json
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\ASPCORE_TracingTool.dll
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\bin\Debug\netcoreapp3.1\ASPCORE_TracingTool.pdb
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.csprojAssemblyReference.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.csproj.CoreCompileInputs.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.MvcApplicationPartsAssemblyInfo.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.AssemblyInfoInputs.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.AssemblyInfo.cs
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.RazorTargetAssemblyInfo.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\staticwebassets\ASPCORE_TracingTool.StaticWebAssets.Manifest.cache
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\staticwebassets\ASPCORE_TracingTool.StaticWebAssets.xml
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.dll
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.pdb
+C:\Old PC Stuff\Repos\ASPNET_testing\ASPCORE_TracingTool\obj\Debug\netcoreapp3.1\ASPCORE_TracingTool.genruntimeconfig.cache

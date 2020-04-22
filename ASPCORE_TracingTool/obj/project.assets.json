@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\probsJustin\\source\\repos\\ASPCORE_TracingTool\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
+      "projectUniqueName": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
       "projectName": "ASPCORE_TracingTool",
-      "projectPath": "C:\\Users\\probsJustin\\source\\repos\\ASPCORE_TracingTool\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
+      "projectPath": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
       "packagesPath": "C:\\Users\\probsJustin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\probsJustin\\source\\repos\\ASPCORE_TracingTool\\ASPCORE_TracingTool\\obj\\",
+      "outputPath": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\probsJustin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
