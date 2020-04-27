@@ -44,17 +44,76 @@ Example:
 ``http://localhost:5000/``
 
 ## API Endpoints: 
+ - /apiTest_GET
+ This will only allow for a GET request method.
+ 
+ - /apiTest_POST
+ This will only allow for a POST request method.
+ 
+ - /apiTest_DELETE
+ This will only allow for a DELETE request method. 
+ 
+ - /apiTest_PUT
+ This will only allow for a PUT request method. 
+ 
+ - /apiTest_SUCCESS
+ This will always respond with a 200. 
+ 
+ - /apiTest_FAILURE
+ This will always fail. 
+ 
+ - /apiTest_CUSTOM
+ This is a custom request that an engineer can add specific code to for it to be run based on it being called. 
+ 
+ - /apiTest_checkResponse
+ This will take a parameter of "responseCode" and will change the response based on that code that is provided. 
+ 
+ - /apiTest_Fork
+ This will allow for you to fork the current process and send a request on supported systems 
+ 
+ - /apiTest_Thread
+ This will allow for you to spin up a thread that makes a request to another endpoint and requires  the "url_passthrough" parameter.
+ 
 
-## Debug Parameters: 
-
+## Debug Request Parameters: 
+ - debug 
+ With this set to "True" it will output the debug information in the response body of the request to ensure that it matches
+ 
+ - url_passthrough
+  With this set to a URL/IP address it will take the reproducer that your request is pointed at and send a GET request to the URL/IP address that you specify.
+  
+ - html 
+ if this is set to true it will ensure that the response that is returned is html
+ 
+ - responseCode
+ When this is set with the numeric response code it will ensure that the request to which this is sent returns the specific response code.
 ## Debug Headers:
+The debug headers are a tool for us to track specific characteristics of a request and also for us to control how the request/transaction flows through separate reproducers. We can have 10 reproducers listed in the "X-dynaSupLabPath-info" header separated by commas and it will allow for us to hit all of them. 
+
+ - X-dynaSupLabReq-info
+ TODO DOC
+ - X-dynaSupLabRes-info
+TODO DOC
+ - X-dynaSupLabPath-info
+ TODO DOC
+ - X-dynaSupLabPosition-info
+TODO DOC
 
 ##  .NET Remoting: 
+TODO
 
 ## Threading and Forking:
 
 ## Notes: 
 
 ## To Do: 
+This is the to do list for the current repository and will be kept current: 
+ 
+Threading 
+Forking 
+.NET Remoting API End Point 
+Add HTML Parameter
 
 ## Report an Issue: 
+
+Contact the support lab or the owner of this repository. 
