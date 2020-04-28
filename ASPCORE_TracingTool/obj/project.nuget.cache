@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DSb7/FuVRIuO74mztftTo75IzsR7UT/LkS9fdyc66RFzvYkepQdNDPCld+qBkSw13PcuO6bDnftR6CT2ITL2vw==",
+  "dgSpecHash": "UlQ6u0HTPXfkHRQmMcPg7dSSoxE/7AQsH8ZcC1dB/hsjtV8ejnqkMgRemu7xnmJeRvhcibgwsDS+dpJjG4pKsw==",
   "success": true,
-  "projectFilePath": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
+  "projectFilePath": "C:\\Repos\\ASPDOTNET_Core_TracingTool\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

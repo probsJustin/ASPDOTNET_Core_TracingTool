@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
+      "projectUniqueName": "C:\\Repos\\ASPDOTNET_Core_TracingTool\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
       "projectName": "ASPCORE_TracingTool",
-      "projectPath": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
+      "projectPath": "C:\\Repos\\ASPDOTNET_Core_TracingTool\\ASPCORE_TracingTool\\ASPCORE_TracingTool.csproj",
       "packagesPath": "C:\\Users\\probsJustin\\.nuget\\packages\\",
-      "outputPath": "C:\\Old PC Stuff\\Repos\\ASPNET_testing\\ASPCORE_TracingTool\\obj\\",
+      "outputPath": "C:\\Repos\\ASPDOTNET_Core_TracingTool\\ASPCORE_TracingTool\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\probsJustin\\AppData\\Roaming\\NuGet\\NuGet.Config",
