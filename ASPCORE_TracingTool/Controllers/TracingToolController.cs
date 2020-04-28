@@ -335,75 +335,111 @@ namespace ASPCORE_TracingTool.Controllers
         }
         [HttpGet]
         [Route("/apiTest_POST")]
-        public ActionResult<string> apiTest_POST()
+        public ContentResult apiTest_POST()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_PUT")]
-        public ActionResult<string> apiTest_PUT()
+        public ContentResult apiTest_PUT()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_DELETE")]
-        public ActionResult<string> apiTest_DELETE()
+        public ContentResult apiTest_DELETE()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_SUCCESS")]
-        public ActionResult<string> apiTest_SUCCESS()
+        public ContentResult apiTest_SUCCESS()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_FAILURE")]
-        public ActionResult<string> apiTest_FAILURE()
+        public ContentResult apiTest_FAILURE()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_PATH")]
-        public ActionResult<string> apiTest_PATH()
+        public ContentResult apiTest_PATH()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_ResponseChecker")]
-        public ActionResult<string> apiTest_ResponseChecker()
+        public ContentResult apiTest_ResponseChecker()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_CUSTOM")]
-        public ActionResult<string> apiTest_CUSTOM()
+        public ContentResult apiTest_CUSTOM()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_DOTNET_REMOTING")]
-        public ActionResult<string> apiTest_DOTNET_REMOTING()
+        public ContentResult apiTest_DOTNET_REMOTING()
         {
             returnInstance = requestFactory(Request);
 
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
 
     }
