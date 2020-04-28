@@ -167,7 +167,15 @@ namespace ASPCORE_TracingTool.Controllers
                 Dictionary<string, string> getResponse = new Dictionary<string, string> { };
 
                 //Set first request and response headers 
-
+                if (requestInstance["html"] == "True" | requestInstance["html"] == "true")
+                {
+                    addBody("<!DOCTYPE html><html>");
+                    returnObject["type"] = "text/html";
+                }
+                else
+                {
+                    returnObject["type"] = "test";
+                }
                 if (Request.Headers.ContainsKey(SLREQ))
                 {
                     devdb(SLREQ + " Header found on initial request.");
@@ -195,6 +203,8 @@ namespace ASPCORE_TracingTool.Controllers
                     addBody(line("Support Lab Debug Variable Response Checker"));
                     addBody(line("Status Code: " + Response.StatusCode + line()));
                 }
+
+
 
                 if (requestInstance["url_passthrough"] != "Empty")
                 {
@@ -292,14 +302,15 @@ namespace ASPCORE_TracingTool.Controllers
                         counter++;
                     }
                 }
-
-
+                if (requestInstance["html"] == "True" | requestInstance["html"] == "true")
+                {
+                    addBody("</html>");
+                }
             }
             catch (Exception e)
             {
                 returnObject["data"] = line(e.ToString());
             }
-
             return returnObject;
         }
 
@@ -313,10 +324,14 @@ namespace ASPCORE_TracingTool.Controllers
         }
         [HttpGet]
         [Route("/apiTest_GET")]
-        public ActionResult<string> apiTest_GET()
+        public ContentResult apiTest_GET()
         {
             returnInstance = requestFactory(Request);
-            return returnInstance["data"];
+            return new ContentResult
+            {
+                ContentType = returnInstance["type"],
+                Content = returnInstance["data"]
+            };
         }
         [HttpGet]
         [Route("/apiTest_POST")]
