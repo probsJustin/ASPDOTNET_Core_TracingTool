@@ -17,10 +17,10 @@ After that we will go ahead and spin up the container for the application. We wi
 
 Then we will copy over the application that you have cloned from bitbucket. Go to that directory and run the following command (make sure to pick the release that fits your need):
 Note: that if any changes were made to the application that you need to then build the app and publish it again.  
-``cd ./bin/Release/netcoreapp3.1``
+``cd ./bin/Release/netcoreapp3.1/publish``
 
 Then copy the contents to the "/app" folder of the container: 
-``docker cp ./ suplab_aspcore_tracing:/app``
+``docker cp ./* suplab_aspcore_tracing:/app``
 
 Next go back to the container and run the following command: 
 ``dotnet /app/ASPCORE_TracingTool.dll`` 
@@ -103,17 +103,20 @@ TODO DOC
 TODO
 
 ## Threading and Forking:
-
+TODO 
 ## Notes: 
+
+This is a work in progress. The application works as a reproducer we will be adding other materials to it as we move forward. I have marked those with TODO 
 
 ## To Do: 
 This is the to do list for the current repository and will be kept current: 
  
-Threading 
-Forking 
-.NET Remoting API End Point 
-Add HTML Parameter
+[o]Threading <BR>
+[o]Forking <BR>
+[o].NET Remoting API End Point <BR>
 
 ## Report an Issue: 
+Contact the support lab by creating a SUPLAB ticket or the owner of this repository. 
 
-Contact the support lab or the owner of this repository. 
+## Authors: 
+Justin Hagerty 
