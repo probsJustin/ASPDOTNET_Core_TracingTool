@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace ASPCORE_TracingTool.Controllers
 {
@@ -14,7 +15,7 @@ namespace ASPCORE_TracingTool.Controllers
     [Route("/")]
     public class TracingTool : ControllerBase
     {
-        Dictionary<string, string> ResponseHeaders = new Dictionary<string, string> { }; 
+        Dictionary<string, string> ResponseHeaders = new Dictionary<string, string> { };
         Dictionary<string, string> RequestHeaders = new Dictionary<string, string> { };
         const string SLREQ = "X-dynaSupLabReq-info";
         const string SLRES = "X-dynaSupLabRes-info";
@@ -29,21 +30,21 @@ namespace ASPCORE_TracingTool.Controllers
                 RequestHeaders[index] = funcVar;
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
         }
         public bool devdb(string funcVar)
         {
-            if(Request.Query["db"] == "True")
+            if (Request.Query["db"] == "True")
             {
                 addBody(line("DEV DEBUG:" + funcVar));
                 return true;
             }
             else
             {
-                return false; 
+                return false;
             }
         }
         public bool AppendToReqHeaders(string funcVar, string index)
@@ -51,7 +52,7 @@ namespace ASPCORE_TracingTool.Controllers
             if (RequestHeaders.ContainsKey(index))
             {
                 RequestHeaders[index] += funcVar;
-                return true; 
+                return true;
             }
             else
             {
@@ -78,7 +79,8 @@ namespace ASPCORE_TracingTool.Controllers
             {
                 returnObject["data"] += funcVar;
                 return true;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return false;
             }
@@ -131,7 +133,7 @@ namespace ASPCORE_TracingTool.Controllers
                 myResponse["code"] = (int)HttpWResp.StatusCode + " : " + HttpWResp.StatusDescription.ToString();
                 myResponse["X-dynaSupLabRes-info"] = HttpWResp.Headers["X-dynaSupLabRes-info"];
                 myResponse["X-dynaSupLabReq-info"] = HttpWResp.Headers["X-dynaSupLabReq-info"];
-                
+
                 HttpWResp.Close();
             }
             catch (WebException e)
@@ -191,7 +193,7 @@ namespace ASPCORE_TracingTool.Controllers
                     devdb(SLRES + " Header found on initial request.");
                     AppendToResHeaders(Request.Headers[SLRES] + pp_stamp(Request.ContentLength.ToString(), Request.Path), SLRES);
                 }
-                else 
+                else
                 {
                     devdb(SLRES + " Header not found on initial request.");
                     AppendToResHeaders(pp_stamp(Response.ContentLength.ToString(), Request.Path), SLRES);
@@ -256,7 +258,7 @@ namespace ASPCORE_TracingTool.Controllers
                         addBody(line(line() + "Dynatrace SUPLAB Debug Path Position Information:"));
                         addBody("X-dynaSupLabPosition-info : " + requestInstance["X-dynaSupLabPosition-info"]);
                     }
-                    
+
                 }
                 else
                 {
@@ -273,7 +275,7 @@ namespace ASPCORE_TracingTool.Controllers
                     {
                         Dictionary<string, string> requestResponse = new Dictionary<string, string> { };
 
-                        int pathIndex = Int32.Parse(requestInstance["X-dynaSupLabPosition-info"])- 1;
+                        int pathIndex = Int32.Parse(requestInstance["X-dynaSupLabPosition-info"]) - 1;
                         addBody(line("URL Selected : " + splitPaths[pathIndex]));
 
                         setReqHeader((pathIndex + 1).ToString(), SLPOS);
@@ -305,10 +307,26 @@ namespace ASPCORE_TracingTool.Controllers
                 {
                     addBody("</html>");
                 }
-                if(requestInstance["debug"] != "Empty")
+                if (requestInstance["debug"] != "Empty")
                 {
-                    addBody(SLRES + " : " + line(ResponseHeaders[SLRES]));
-                    addBody(SLREQ + " : " + line(ResponseHeaders[SLREQ]));
+                    if (ResponseHeaders.ContainsKey(SLRES))
+                    {
+                        addBody(SLRES + " : " + line(ResponseHeaders[SLRES]));
+                    }
+                    else
+                    {
+                        AppendToResHeaders(pp_stamp(Response.ContentLength.ToString(), Request.Path), SLRES);
+                    }
+                    if (ResponseHeaders.ContainsKey(SLREQ))
+                    {
+                        addBody(SLREQ + " : " + line(ResponseHeaders[SLREQ]));
+                    }
+                    else
+                    {
+                        AppendToResHeaders("", SLREQ);
+                    }
+                    
+                    
                 }
                 Response.Headers.Add(SLRES, ResponseHeaders[SLRES]);
                 Response.Headers.Add(SLREQ, ResponseHeaders[SLREQ]);
@@ -339,7 +357,7 @@ namespace ASPCORE_TracingTool.Controllers
                 Content = returnInstance["data"]
             };
         }
-        [HttpGet]
+        [HttpPost]
         [Route("/apiTest_POST")]
         public ContentResult apiTest_POST()
         {
@@ -351,7 +369,7 @@ namespace ASPCORE_TracingTool.Controllers
                 Content = returnInstance["data"]
             };
         }
-        [HttpGet]
+        [HttpPut]
         [Route("/apiTest_PUT")]
         public ContentResult apiTest_PUT()
         {
@@ -363,7 +381,7 @@ namespace ASPCORE_TracingTool.Controllers
                 Content = returnInstance["data"]
             };
         }
-        [HttpGet]
+        [HttpDelete]
         [Route("/apiTest_DELETE")]
         public ContentResult apiTest_DELETE()
         {
