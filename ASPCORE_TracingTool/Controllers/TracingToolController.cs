@@ -22,7 +22,6 @@ namespace ASPCORE_TracingTool.Controllers
         const string SLPOS = "X-dynaSupLabPosition-info";
         const string SLPASS = "url_passthrough";
 
-
         public bool setReqHeader(string funcVar, string index)
         {
             try
@@ -59,12 +58,11 @@ namespace ASPCORE_TracingTool.Controllers
                 return false;
             }
         }
-
         public bool AppendToResHeaders(string funcVar, string index)
         {
             if (ResponseHeaders.ContainsKey(index))
             {
-                ResponseHeaders[index] = funcVar;
+                ResponseHeaders[index] += funcVar;
                 return true;
             }
             else
@@ -90,6 +88,7 @@ namespace ASPCORE_TracingTool.Controllers
             returnObject += "ts=" + dto.ToUnixTimeSeconds().ToString() + ',';
             returnObject += "client-ip=" + Request.HttpContext.Connection.RemoteIpAddress + ',';
             returnObject += "content-length=" + contentLength + ',';
+            returnObject += "message=" + "ASP CORE NET TRACING TOOL" + ',';
             returnObject += "requestURI=" + requestURI + '$';
             return returnObject;
         }
@@ -124,10 +123,13 @@ namespace ASPCORE_TracingTool.Controllers
             try
             {
                 HttpWReq.Method = "GET";
+                myResponse["req_content-length"] = HttpWReq.ContentLength.ToString();
+                myResponse["req_uri"] = HttpWReq.RequestUri.ToString();
                 HttpWebResponse HttpWResp = (HttpWebResponse)HttpWReq.GetResponse();
                 myResponse["code"] = (int)HttpWResp.StatusCode + " : " + HttpWResp.StatusDescription.ToString();
                 myResponse["X-dynaSupLabRes-info"] = HttpWResp.Headers["X-dynaSupLabRes-info"];
                 myResponse["X-dynaSupLabReq-info"] = HttpWResp.Headers["X-dynaSupLabReq-info"];
+                
                 HttpWResp.Close();
             }
             catch (WebException e)
@@ -174,27 +176,31 @@ namespace ASPCORE_TracingTool.Controllers
                 }
                 else
                 {
-                    returnObject["type"] = "test";
+                    returnObject["type"] = "text";
                 }
                 if (Request.Headers.ContainsKey(SLREQ))
                 {
                     devdb(SLREQ + " Header found on initial request.");
-                    AppendToReqHeaders(pp_stamp(Request.ContentLength.ToString(), Request.Path), SLREQ);
+                    AppendToReqHeaders(Request.Headers[SLREQ] + pp_stamp(Request.ContentLength.ToString(), Request.Path), SLREQ);
                 }
                 else
                 {
-                    RequestHeaders[SLREQ] = pp_stamp(Request.ContentLength.ToString(), Request.Path);
+                    ResponseHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
+                    RequestHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
+                    RequestHeaders[SLREQ] = "";
+                    ResponseHeaders[SLREQ] = "";
                     devdb(SLRES + " Header not found on initial request.");
                 }
                 if (Request.Headers.ContainsKey(SLRES))
                 {
                     devdb(SLRES + " Header found on initial request.");
-                    AppendToResHeaders(pp_stamp(Request.ContentLength.ToString(), Request.Path), SLRES);
+                    AppendToResHeaders(Request.Headers[SLRES] + pp_stamp(Request.ContentLength.ToString(), Request.Path), SLRES);
                 }
                 else 
                 {
                     devdb(SLRES + " Header not found on initial request.");
                     ResponseHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
+                    RequestHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
                 }
                 if (requestInstance["responseCode"] != "Empty")
                 {
@@ -281,6 +287,9 @@ namespace ASPCORE_TracingTool.Controllers
                         setReqHeader(requestInstance[SLPATH], SLPATH);
 
                         requestResponse = getRequest(splitPaths[pathIndex], RequestHeaders);
+                        AppendToReqHeaders(pp_stamp(requestResponse["req_content-length"], requestResponse["req_uri"]), SLREQ);
+                        AppendToResHeaders(pp_stamp(requestResponse["req_content-length"], requestResponse["req_uri"]), SLREQ);
+
                         //Add to the response headers of the request to this reproducer 
                         if (requestResponse.ContainsKey(SLREQ))
                         {
@@ -306,6 +315,13 @@ namespace ASPCORE_TracingTool.Controllers
                 {
                     addBody("</html>");
                 }
+                if(requestInstance["debug"] != "Empty")
+                {
+                    addBody(SLRES + " : " + line(ResponseHeaders[SLRES]));
+                    addBody(SLREQ + " : " + line(ResponseHeaders[SLREQ]));
+                }
+                Response.Headers.Add(SLRES, ResponseHeaders[SLRES]);
+                Response.Headers.Add(SLREQ, ResponseHeaders[SLREQ]);
             }
             catch (Exception e)
             {
