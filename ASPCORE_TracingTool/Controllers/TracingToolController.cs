@@ -50,11 +50,12 @@ namespace ASPCORE_TracingTool.Controllers
         {
             if (RequestHeaders.ContainsKey(index))
             {
-                RequestHeaders[index] = funcVar;
+                RequestHeaders[index] += funcVar;
                 return true; 
             }
             else
             {
+                RequestHeaders[index] = funcVar;
                 return false;
             }
         }
@@ -67,6 +68,7 @@ namespace ASPCORE_TracingTool.Controllers
             }
             else
             {
+                ResponseHeaders[index] = funcVar;
                 return false;
             }
         }
@@ -181,16 +183,9 @@ namespace ASPCORE_TracingTool.Controllers
                 if (Request.Headers.ContainsKey(SLREQ))
                 {
                     devdb(SLREQ + " Header found on initial request.");
-                    AppendToReqHeaders(Request.Headers[SLREQ] + pp_stamp(Request.ContentLength.ToString(), Request.Path), SLREQ);
+                    AppendToResHeaders(Request.Headers[SLREQ], SLREQ);
                 }
-                else
-                {
-                    ResponseHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
-                    RequestHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
-                    RequestHeaders[SLREQ] = "";
-                    ResponseHeaders[SLREQ] = "";
-                    devdb(SLRES + " Header not found on initial request.");
-                }
+
                 if (Request.Headers.ContainsKey(SLRES))
                 {
                     devdb(SLRES + " Header found on initial request.");
@@ -199,9 +194,9 @@ namespace ASPCORE_TracingTool.Controllers
                 else 
                 {
                     devdb(SLRES + " Header not found on initial request.");
-                    ResponseHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
-                    RequestHeaders[SLRES] = pp_stamp(Response.ContentLength.ToString(), Request.Path);
+                    AppendToResHeaders(pp_stamp(Response.ContentLength.ToString(), Request.Path), SLRES);
                 }
+
                 if (requestInstance["responseCode"] != "Empty")
                 {
                     devdb("Setting status code from request as it is not 'Empty'");
@@ -224,13 +219,11 @@ namespace ASPCORE_TracingTool.Controllers
                     if (getResponse.ContainsKey(SLREQ))
                     {
                         devdb(SLPASS + " Request found x dyna sup lab debug headers on the response for: " + SLREQ);
-                        AppendToReqHeaders(getResponse[SLREQ], SLREQ);
                         AppendToResHeaders(getResponse[SLREQ], SLREQ);
                     }
                     if (getResponse.ContainsKey(SLRES))
                     {
                         devdb(SLPASS + " Request found x dyna sup lab debug headers on the response for: " + SLRES);
-                        AppendToReqHeaders(getResponse[SLRES], SLRES); 
                         AppendToResHeaders(getResponse[SLRES], SLRES);
                     }
                 }
@@ -287,20 +280,17 @@ namespace ASPCORE_TracingTool.Controllers
                         setReqHeader(requestInstance[SLPATH], SLPATH);
 
                         requestResponse = getRequest(splitPaths[pathIndex], RequestHeaders);
-                        AppendToReqHeaders(pp_stamp(requestResponse["req_content-length"], requestResponse["req_uri"]), SLREQ);
                         AppendToResHeaders(pp_stamp(requestResponse["req_content-length"], requestResponse["req_uri"]), SLREQ);
 
                         //Add to the response headers of the request to this reproducer 
                         if (requestResponse.ContainsKey(SLREQ))
                         {
                             devdb("Found dyna sup lab debug headers on the path request: " + SLREQ);
-                            AppendToReqHeaders(requestResponse[SLREQ], SLREQ);
                             AppendToResHeaders(requestResponse[SLREQ], SLREQ);
                         }
                         if (requestResponse.ContainsKey(SLRES))
                         {
                             devdb("Found dyna sup lab debug headers on the path request: " + SLRES);
-                            AppendToReqHeaders(requestResponse[SLRES], SLRES);
                             AppendToResHeaders(requestResponse[SLRES], SLRES);
                         }
                         addBody(line("URL Response Code : " + requestResponse["code"]));
@@ -325,7 +315,7 @@ namespace ASPCORE_TracingTool.Controllers
             }
             catch (Exception e)
             {
-                returnObject["data"] = line(e.ToString());
+                addBody(line(e.ToString()));
             }
             return returnObject;
         }
